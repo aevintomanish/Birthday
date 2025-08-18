@@ -249,7 +249,7 @@ export default function BirthdaySurprise() {
           <motion.span 
             className="block mt-2 text-3xl sm:text-5xl font-medium text-gray-800"
           >
-            Annlin Autokaran Akka Mariyama
+            Annlin Autokaran Aka Mariyama
           </motion.span>
         </h1>
       </motion.div>
@@ -302,7 +302,7 @@ export default function BirthdaySurprise() {
             {timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s
           </div>
           <p className="mt-6 text-gray-600 animate-pulse">
-            Enjoy the music while you wait 💖
+             The surprise is almost ready... 💫
           </p>
         </motion.div>
       </div>
