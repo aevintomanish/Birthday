@@ -4,25 +4,23 @@ import ReactHowler from 'react-howler';
 import Confetti from 'react-confetti';
 import { Link } from 'react-scroll';
 
-
-
 const AUDIO_SRC = '/audio/paro.mp3';
 const LAUNCH_DATE = new Date('2025-08-18T00:00:00');
 
 const photos = [
-  { src: '/images/photo1.jpg', caption: 'Our first trip ✈️🌄', discription: 'The adventure that started it all 💕' },
-  { src: '/images/photo2.jpg', caption: 'That rainy day 🌧️☔', discription: 'Bike ride in the rain, just us two 💖' },
-  { src: '/images/photo3.jpg', caption: 'The “Us” after a big fight 😅❤️', discription: 'Love always wins, even after storms 🌈' },
-   { src: '/images/photo4.jpeg', caption: 'That magical first kiss 😘💫', discription: 'One of my favourite moments with you — those 10 magical minutes we had together 💕' },
-  { src: '/images/photo5.jpeg', caption: 'Bangalore adventures 🌆🚴‍♂️', discription: 'The day my transfer got approved, I booked a flight with extra money just to see you. You skipped class to go out with me — every special moment in our relationship seems to happen on the 23rd, making it unforgettable 💕💕' },
-  { src: '/images/photo6.jpeg', caption: 'Valentine’s vibes ❤️🌹', discription: 'Thanks to Renita we got this cute photo — the heart-shaped pizza, our matching red outfits, and that perfect moment together. A memory I will always cherish 💕' },
-  { src: '/images/photo7.jpeg', caption: 'Silly selfie moments 🤪📸', discription: 'Usually a day out with my sleeping beauty, but even after a hectic day, she happily came out with me without proper sleep — your commitment to us is something I’ll always cherish 💖' },
-  { src: '/images/photo8.jpeg', caption: 'Movie date 🍿🎬', discription: 'You came all dressed in a saree just for me 💕 We watched Officer on Duty together and captured these lovely photos — such a special memory!' },
-  { src: '/images/photo9.jpeg', caption: 'Paragon dayyy 🎉🎈', discription: 'Spent a lovely day together — first we bought the helmet 🛵💖, then enjoyed some quality time at Cubbon Park 🌳⏰. A memory I’ll always treasure!' },
-  { src: '/images/photo10.jpeg', caption: 'Last meet before graduation 🎓💔', discription: 'When you planned the date, I was so happy — the locations, everything was perfect. The only sad part was I didn’t realize it would be our last meeting before your graduation 🎓💔' },
-  { src: '/images/photo11.jpeg', caption: 'My birthday bash 🥳🎂', discription: 'I thought you’d be busy with college and everything, but somehow you found an entire day just for me — your effort and love made it so special 💖✨' },
-  { src: '/images/photo12.jpeg', caption: 'Simple date, pure joy 🌸☕', discription: 'Everyday magic with you ✨💑💛' },
-  { src: '/images/photo13.jpeg', caption: '1 year of love 💕🥂', discription: 'Our anniversary that we didn’t even think would happen — a random swipe, a missed flight, and despite many plans to break up, it ended up being something so beautiful. Thank you, Mann, for everything ❤️✨ I’m still keeping that letter from you in my cupboard in a safe place; I’ll hold it whenever I miss you 💌Our first anniversary, unforgettable' },
+  { src: '/images/photo1.jpg', caption: 'Our first trip ✈️🌄', description: 'The adventure that started it all 💕' },
+  { src: '/images/photo2.jpg', caption: 'That rainy day 🌧️☔', description: 'Bike ride in the rain, just us two 💖' },
+  { src: '/images/photo3.jpg', caption: 'The "Us" after a big fight 😅❤️', description: 'Love always wins, even after storms 🌈' },
+  { src: '/images/photo4.jpeg', caption: 'That magical first kiss 😘💫', description: 'One of my favourite moments with you — those 10 magical minutes we had together 💕' },
+  { src: '/images/photo5.jpeg', caption: 'Bangalore adventures 🌆🚴‍♂️', description: 'The day my transfer got approved, I booked a flight with extra money just to see you. You skipped class to go out with me — every special moment in our relationship seems to happen on the 23rd, making it unforgettable 💕💕' },
+  { src: '/images/photo6.jpeg', caption: 'Valentine\'s vibes ❤️🌹', description: 'Thanks to Renita we got this cute photo — the heart-shaped pizza, our matching red outfits, and that perfect moment together. A memory I will always cherish 💕' },
+  { src: '/images/photo7.jpeg', caption: 'Silly selfie moments 🤪📸', description: 'Usually a day out with my sleeping beauty, but even after a hectic day, she happily came out with me without proper sleep — your commitment to us is something I\'ll always cherish 💖' },
+  { src: '/images/photo8.jpeg', caption: 'Movie date 🍿🎬', description: 'You came all dressed in a saree just for me 💕 We watched Officer on Duty together and captured these lovely photos — such a special memory!' },
+  { src: '/images/photo9.jpeg', caption: 'Paragon dayyy 🎉🎈', description: 'Spent a lovely day together — first we bought the helmet 🛵💖, then enjoyed some quality time at Cubbon Park 🌳⏰. A memory I\'ll always treasure!' },
+  { src: '/images/photo10.jpeg', caption: 'Last meet before graduation 🎓💔', description: 'When you planned the date, I was so happy — the locations, everything was perfect. The only sad part was I didn\'t realize it would be our last meeting before your graduation 🎓💔' },
+  { src: '/images/photo11.jpeg', caption: 'My birthday bash 🥳🎂', description: 'I thought you\'d be busy with college and everything, but somehow you found an entire day just for me — your effort and love made it so special 💖✨' },
+  { src: '/images/photo12.jpeg', caption: 'Simple date, pure joy 🌸☕', description: 'Everyday magic with you ✨💑💛' },
+  { src: '/images/photo13.jpeg', caption: '1 year of love 💕🥂', description: 'Our anniversary that we didn\'t even think would happen — a random swipe, a missed flight, and despite many plans to break up, it ended up being something so beautiful. Thank you, Mann, for everything ❤️✨ I\'m still keeping that letter from you in my cupboard in a safe place; I\'ll hold it whenever I miss you 💌Our first anniversary, unforgettable' },
 ];
 
 export default function BirthdaySurprise() {
@@ -37,24 +35,18 @@ export default function BirthdaySurprise() {
   const [reelPlaying, setReelPlaying] = useState(false);
   const [volume, setVolume] = useState(0.5);
   const heartsContainerRef = useRef(null);
-  const [showLoveMeter, setShowLoveMeter] = useState(false);
   const [isLetterOpen, setIsLetterOpen] = useState(false);
-const [playPaperSound, setPlayPaperSound] = useState(false);
+  const [playPaperSound, setPlayPaperSound] = useState(false);
 
-  // Floating hearts effect
+  // Enhanced floating hearts effect
   useEffect(() => {
     if (!heartsContainerRef.current) return;
 
     const createHeart = () => {
       const heart = document.createElement("div");
       heart.className = "heart";
-      const handleOpenLetter = () => {
-  if (!isLetterOpen) {
-    setPlayPaperSound(true);
-    setIsLetterOpen(true);
-  }
-};
-
+      heart.innerHTML = ['❤️', '💖', '💕', '✨', '🎉'][Math.floor(Math.random() * 5)];
+      
       const size = Math.random() * 20 + 10;
       heart.style.width = `${size}px`;
       heart.style.height = `${size}px`;
@@ -74,19 +66,19 @@ const [playPaperSound, setPlayPaperSound] = useState(false);
     return () => clearInterval(interval);
   }, []);
 
-  // Countdown timer
+  // Countdown timer with music control
   useEffect(() => {
     const timer = setInterval(() => {
       const tl = getTimeLeft();
       setTimeLeft(tl);
       if (!tl && !unlocked) {
+        setUnlocked(true);
         if (!userInteracted) {
           setShowTapOverlay(true);
         } else {
           setPlaying(true);
           handleCelebrate();
         }
-        setUnlocked(true);
       }
     }, 1000);
     return () => clearInterval(timer);
@@ -106,14 +98,12 @@ const [playPaperSound, setPlayPaperSound] = useState(false);
     return () => window.removeEventListener('resize', onResize);
   }, []);
 
-  // Music controls
+  // Music controls with smooth transition
   useEffect(() => {
-    if (userInteracted && unlocked) {
-      setPlaying(true);
-      setShowTapOverlay(false);
-      handleCelebrate();
+    if (howlerRef.current) {
+      howlerRef.current.howler.volume(volume);
     }
-  }, [userInteracted, unlocked]);
+  }, [volume]);
 
   function getTimeLeft() {
     const now = new Date();
@@ -133,12 +123,48 @@ const [playPaperSound, setPlayPaperSound] = useState(false);
   }
 
   function handleVolumeChange(e) {
-    const newVolume = parseFloat(e.target.value);
-    setVolume(newVolume);
-    if (howlerRef.current && howlerRef.current.howler) {
-      howlerRef.current.howler.volume(newVolume);
-    }
+    setVolume(parseFloat(e.target.value));
   }
+
+  const handleOpenLetter = () => {
+    if (!isLetterOpen) {
+      setPlayPaperSound(true);
+      setIsLetterOpen(true);
+    }
+  };
+
+  // Animated Birthday Heading Component
+  const BirthdayHeading = () => (
+    <motion.div
+      initial={{ opacity: 0, y: -40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, delay: 0.2 }}
+      className="text-center"
+    >
+      <motion.div
+        animate={{
+          scale: [1, 1.05, 1],
+          rotate: [-2, 1, -1, 0]
+        }}
+        transition={{
+          duration: 4,
+          repeat: Infinity,
+          repeatType: "reverse"
+        }}
+      >
+        <h1 className="text-4xl sm:text-6xl font-bold mb-2">
+          <span className="block text-transparent bg-clip-text bg-gradient-to-r from-rose-600 to-pink-600">
+            Happy Birthday
+          </span>
+          <motion.span 
+            className="block mt-2 text-3xl sm:text-5xl font-medium text-gray-800"
+          >
+            Annlin Autokaran Akka Mariyama
+          </motion.span>
+        </h1>
+      </motion.div>
+    </motion.div>
+  );
 
   if (timeLeft) {
     return (
@@ -166,28 +192,19 @@ const [playPaperSound, setPlayPaperSound] = useState(false);
         )}
 
         <ReactHowler 
-          src={AUDIO_SRC} 
-          playing={true} 
-          loop={true} 
-          volume={0.4} 
-          ref={howlerRef} 
+          src={AUDIO_SRC}
+          playing={playing && !reelPlaying}
+          loop={true}
+          volume={volume}
+          ref={howlerRef}
         />
-        {/* Main music player */}
-<ReactHowler 
-  src={AUDIO_SRC}
-  playing={playing && !reelPlaying}
-  loop={true} 
-  volume={volume}
-  ref={howlerRef} 
-/>
 
-{/* Paper sound effect - add this right after */}
-<ReactHowler
-  src="/sounds/paper-open.mp3"
-  playing={playPaperSound}
-  onEnd={() => setPlayPaperSound(false)}
-  volume={0.3}
-/>
+        <ReactHowler
+          src="/sounds/paper-open.mp3"
+          playing={playPaperSound}
+          onEnd={() => setPlayPaperSound(false)}
+          volume={0.3}
+        />
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -238,9 +255,9 @@ const [playPaperSound, setPlayPaperSound] = useState(false);
       <ReactHowler 
         src={AUDIO_SRC}
         playing={playing && !reelPlaying}
-        loop={true} 
+        loop={true}
         volume={volume}
-        ref={howlerRef} 
+        ref={howlerRef}
       />
 
       {showConfetti && (
@@ -262,24 +279,7 @@ const [playPaperSound, setPlayPaperSound] = useState(false);
         />
         
         <div className="text-center px-6 z-10">
-          <motion.h1 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-4xl sm:text-6xl font-bold mb-2"
-          >
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-rose-600 to-pink-600">
-              Happy Birthday
-            </span>
-            <motion.span 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              className="block mt-2 text-3xl sm:text-5xl font-medium text-gray-800"
-            >
-              Annlin Autokaran Akka Mariyama
-            </motion.span>
-          </motion.h1>
+          <BirthdayHeading />
           
           <motion.p 
             initial={{ opacity: 0 }}
@@ -346,7 +346,6 @@ const [playPaperSound, setPlayPaperSound] = useState(false);
               transition={{ duration: 0.7 }}
               className="group flex flex-col sm:flex-row items-center gap-8 relative"
             >
-              {/* Photo Container */}
               <div className={`w-full sm:w-1/2 ${index % 2 === 0 ? '' : 'sm:order-2'}`}>
                 <motion.div 
                   whileHover={{ scale: 1.02 }}
@@ -365,7 +364,6 @@ const [playPaperSound, setPlayPaperSound] = useState(false);
                 </motion.div>
               </div>
 
-              {/* Description Card */}
               <div className={`w-full sm:w-1/2 ${index % 2 === 0 ? '' : 'sm:order-1'}`}>
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -375,9 +373,8 @@ const [playPaperSound, setPlayPaperSound] = useState(false);
                   className="relative bg-white/90 backdrop-blur-sm p-6 rounded-xl shadow-lg border border-rose-100"
                 >
                   <h3 className="font-bold text-rose-700 text-xl mb-2">{photo.caption}</h3>
-                  <p className="text-gray-700 leading-relaxed">{photo.discription}</p>
+                  <p className="text-gray-700 leading-relaxed">{photo.description}</p>
                   
-                  {/* Floating hearts */}
                   {[1, 2, 3].map((i) => (
                     <motion.div
                       key={i}
@@ -410,96 +407,81 @@ const [playPaperSound, setPlayPaperSound] = useState(false);
       </section>
 
       {/* Love Letter Section */}
-<section className="py-20 px-4 bg-rose-50/50 backdrop-blur-sm">
-  <div className="max-w-3xl mx-auto">
-    <motion.h2 
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6 }}
-      className="text-3xl font-semibold text-center mb-8 text-rose-700"
-    >
-      A Letter From My Heart
-    </motion.h2>
+      <section className="py-20 px-4 bg-rose-50/50 backdrop-blur-sm">
+        <div className="max-w-3xl mx-auto">
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-3xl font-semibold text-center mb-8 text-rose-700"
+          >
+            A Letter From My Heart
+          </motion.h2>
 
-    <motion.div 
-      initial={{ scale: 0.95, opacity: 0 }}
-      whileInView={{ scale: 1, opacity: 1 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.8 }}
-      className="relative"
-    >
-      {/* Envelope */}
-      <div className="bg-rose-100 rounded-lg p-1 shadow-lg">
-        {/* Envelope flap */}
-        <motion.div 
-          animate={{ rotateX: [0, 180] }}
-          transition={{ duration: 0.5, delay: 1 }}
-          className="absolute top-0 left-0 right-0 h-16 bg-rose-200 origin-top rounded-t-lg"
-          style={{ 
-            clipPath: 'polygon(0 0, 100% 0, 50% 50%)',
-            zIndex: 10 
-          }}
-        />
-        
-        {/* Letter content */}
-        <motion.div
-          initial={{ y: 0 }}
-          whileHover={{ y: -20 }}
-          transition={{ duration: 0.5 }}
-          className="bg-white p-8 rounded-lg shadow-inner cursor-pointer"
-          onClick={(e) => e.currentTarget.classList.toggle('translate-y-[-20px]')}
-        >
-          {/* Letter paper with handwritten effect */}
-          <div className="relative">
-            {/* Paper texture */}
-            <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPgogIDxmaWx0ZXIgaWQ9Im5vaXNlIj4KICAgIDxmZVR1cmJ1bGVuY2UgdHlwZT0iZnJhY3RhbE5vaXNlIiBiYXNlRnJlcXVlbmN5PSIwLjA1IiBudW1PY3RhdmVzPSIzIiBzdGl0Y2hUaWxlcz0ic3RpdGNoIi8+CiAgICA8ZmVDb2xvck1hdHJpeCB0eXBlPSJzYXR1cmF0ZSIgdmFsdWVzPSIwIi8+CiAgPC9maWx0ZXI+CiAgPHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsdGVyPSJ1cmwoI25vaXNlKSIgb3BhY2l0eT0iMC4wNSIvPgo8L3N2Zz4=')] opacity-10 pointer-events-none"></div>
-            
-            {/* Handwriting-style text */}
-            <div className="font-[DancingScript] text-lg leading-relaxed">
-              <p className="mb-4">To Annlin,</p>
+          <motion.div 
+            initial={{ scale: 0.95, opacity: 0 }}
+            whileInView={{ scale: 1, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="relative"
+          >
+            <div className="bg-rose-100 rounded-lg p-1 shadow-lg">
+              <motion.div 
+                animate={{ rotateX: [0, 180] }}
+                transition={{ duration: 0.5, delay: 1 }}
+                className="absolute top-0 left-0 right-0 h-16 bg-rose-200 origin-top rounded-t-lg"
+                style={{ 
+                  clipPath: 'polygon(0 0, 100% 0, 50% 50%)',
+                  zIndex: 10 
+                }}
+              />
               
-              <p className="mb-4">
-                I was going to write something grand for your birthday, but then I remembered the way you smile when you think no one's watching—that small, quiet thing that feels more real than anything else.
-              </p>
-              
-              <p className="mb-4">
-               Funny how the best parts of you are the ones you don’t even try to show. Like how you listen with your whole body leaning in, or how you’ll remember a throwaway detail from months ago and mention it like it’s nothing. You’re terrible at accepting praise, but God, you deserve it.
-              </p>
-              
-              <p className="mb-4">
-                I know I’m not always easy. I know I take more than I give sometimes. But you? You stay. Not in some dramatic, sweeping gesture way—just in the steady, stubborn rhythm of your presence. And maybe that’s why it’s so easy to miss how much it actually means.
-
-Today, I hope you let yourself be celebrated. Not because it’s your birthday, but because you’re the rare kind of person who makes ordinary moments feel like gifts.
-              </p>
-              
-              <p>With all my love,</p>
-              <p>Your BF /Future Husband </p>
+              <motion.div
+                initial={{ y: 0 }}
+                whileHover={{ y: -20 }}
+                transition={{ duration: 0.5 }}
+                className="bg-white p-8 rounded-lg shadow-inner cursor-pointer"
+                onClick={handleOpenLetter}
+              >
+                <div className="relative">
+                  <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPgogIDxmaWx0ZXIgaWQ9Im5vaXNlIj4KICAgIDxmZVR1cmJ1bGVuY2UgdHlwZT0iZnJhY3RhbE5vaXNlIiBiYXNlRnJlcXVlbmN5PSIwLjA1IiBudW1PY3RhdmVzPSIzIiBzdGl0Y2hUaWxlcz0ic3RpdGNoIi8+CiAgICA8ZmVDb2xvck1hdHJpeCB0eXBlPSJzYXR1cmF0ZSIgdmFsdWVzPSIwIi8+CiAgPC9maWx0ZXI+CiAgPHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsdGVyPSJ1cmwoI25vaXNlKSIgb3BhY2l0eT0iMC4wNSIvPgo8L3N2Zz4=')] opacity-10 pointer-events-none"></div>
+                  
+                  <div className="font-[DancingScript] text-lg leading-relaxed">
+                    <p className="mb-4">To Annlin,</p>
+                    <p className="mb-4">
+                      I was going to write something grand for your birthday, but then I remembered the way you smile when you think no one's watching—that small, quiet thing that feels more real than anything else.
+                    </p>
+                    <p className="mb-4">
+                      Funny how the best parts of you are the ones you don't even try to show. Like how you listen with your whole body leaning in, or how you'll remember a throwaway detail from months ago and mention it like it's nothing. You're terrible at accepting praise, but God, you deserve it.
+                    </p>
+                    <p className="mb-4">
+                      I know I'm not always easy. I know I take more than I give sometimes. But you? You stay. Not in some dramatic, sweeping gesture way—just in the steady, stubborn rhythm of your presence. And maybe that's why it's so easy to miss how much it actually means.
+                      Today, I hope you let yourself be celebrated. Not because it's your birthday, but because you're the rare kind of person who makes ordinary moments feel like gifts.
+                    </p>
+                    <p>With all my love,</p>
+                    <p>Your BF /Future Husband</p>
+                  </div>
+                </div>
+              </motion.div>
             </div>
-          </div>
-        </motion.div>
-      </div>
 
-      {/* Seal - click to open */}
-      <motion.div
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        transition={{ delay: 0.5 }}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-        className="absolute -top-4 left-1/2 -translate-x-1/2 z-20 cursor-pointer"
-        onClick={() => {
-          // Add logic to trigger letter opening animation
-          document.querySelector('.bg-white').classList.toggle('translate-y-[-20px]')
-        }}
-      >
-        <div className="w-12 h-12 bg-rose-500 rounded-full flex items-center justify-center shadow-md">
-          <span className="text-white text-xl">💌</span>
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 0.5 }}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              className="absolute -top-4 left-1/2 -translate-x-1/2 z-20 cursor-pointer"
+              onClick={handleOpenLetter}
+            >
+              <div className="w-12 h-12 bg-rose-500 rounded-full flex items-center justify-center shadow-md">
+                <span className="text-white text-xl">💌</span>
+              </div>
+            </motion.div>
+          </motion.div>
         </div>
-      </motion.div>
-    </motion.div>
-  </div>
-</section>
+      </section>
 
       {/* Final Section */}
       <section className="py-32 px-4 bg-gradient-to-b from-white to-rose-50 relative overflow-hidden">
@@ -537,12 +519,12 @@ Today, I hope you let yourself be celebrated. Not because it’s your birthday, 
             >
               Shower Me With Love 💖
             </button>
-  <a 
-  href="#reelVideo" 
-  className="px-6 py-3 rounded-full bg-white/90 border border-rose-100 hover:border-rose-200 cursor-pointer shadow-sm hover:shadow transition-all"
->
-  Your Gift Awaits 🎁🎥
-</a>
+            <a 
+              href="#reelVideo" 
+              className="px-6 py-3 rounded-full bg-white/90 border border-rose-100 hover:border-rose-200 cursor-pointer shadow-sm hover:shadow transition-all"
+            >
+              Your Gift Awaits 🎁🎥
+            </a>
           </motion.div>
         </div>
       </section>
