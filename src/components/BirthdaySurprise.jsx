@@ -25,6 +25,7 @@ const photos = [
 
 export default function BirthdaySurprise() {
   const [showConfetti, setShowConfetti] = useState(false);
+  const [showRosePetals, setShowRosePetals] = useState(false);
   const [dimensions, setDimensions] = useState({ width: 1200, height: 800 });
   const [timeLeft, setTimeLeft] = useState(getTimeLeft());
   const [unlocked, setUnlocked] = useState(false);
@@ -37,6 +38,9 @@ export default function BirthdaySurprise() {
   const heartsContainerRef = useRef(null);
   const [isLetterOpen, setIsLetterOpen] = useState(false);
   const [playPaperSound, setPlayPaperSound] = useState(false);
+  const paperSoundRef = useRef(null);
+  const [countdownActive, setCountdownActive] = useState(false);
+  const [countdownMessage, setCountdownMessage] = useState('');
 
   // Enhanced floating hearts effect
   useEffect(() => {
@@ -65,6 +69,45 @@ export default function BirthdaySurprise() {
     const interval = setInterval(createHeart, 300);
     return () => clearInterval(interval);
   }, []);
+
+  // Rose petals effect
+  useEffect(() => {
+    if (!showRosePetals) return;
+
+    const createPetal = () => {
+      const petal = document.createElement("div");
+      petal.className = "rose-petal";
+      
+      // Random rose petal emoji
+      petal.innerHTML = ['🌹', '🌸', '🏵️', '🌺', '🌷'][Math.floor(Math.random() * 5)];
+      
+      const size = Math.random() * 30 + 20;
+      petal.style.width = `${size}px`;
+      petal.style.height = `${size}px`;
+      petal.style.left = `${Math.random() * 100}%`;
+      petal.style.opacity = Math.random() * 0.7 + 0.3;
+      petal.style.animationDuration = `${Math.random() * 8 + 4}s`;
+      petal.style.animationDelay = `${Math.random() * 2}s`;
+      petal.style.transform = `rotate(${Math.random() * 360}deg)`;
+
+      document.body.appendChild(petal);
+
+      setTimeout(() => {
+        petal.remove();
+      }, 10000);
+    };
+
+    const interval = setInterval(createPetal, 100);
+    const timeout = setTimeout(() => {
+      setShowRosePetals(false);
+      clearInterval(interval);
+    }, 5000);
+
+    return () => {
+      clearInterval(interval);
+      clearTimeout(timeout);
+    };
+  }, [showRosePetals]);
 
   // Countdown timer with music control
   useEffect(() => {
@@ -105,6 +148,35 @@ export default function BirthdaySurprise() {
     }
   }, [volume]);
 
+  // Romantic countdown effect
+  useEffect(() => {
+    if (!countdownActive) return;
+
+    const messages = [
+      "5... I love your smile that brightens my darkest days",
+      "4... I adore the way you care for others selflessly",
+      "3... I cherish our late-night conversations",
+      "2... I'm grateful for your patience with me",
+      "1... Most of all, I love YOU, just as you are",
+      "Happy Birthday my love! 🎂💖"
+    ];
+
+    let current = 0;
+    const interval = setInterval(() => {
+      setCountdownMessage(messages[current]);
+      current++;
+      if (current >= messages.length) {
+        clearInterval(interval);
+        setTimeout(() => {
+          setCountdownActive(false);
+          setCountdownMessage('');
+        }, 3000);
+      }
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, [countdownActive]);
+
   function getTimeLeft() {
     const now = new Date();
     const diff = LAUNCH_DATE - now;
@@ -127,10 +199,28 @@ export default function BirthdaySurprise() {
   }
 
   const handleOpenLetter = () => {
+    setIsLetterOpen(!isLetterOpen);
     if (!isLetterOpen) {
-      setPlayPaperSound(true);
+      if (paperSoundRef.current) {
+        paperSoundRef.current.currentTime = 0;
+        paperSoundRef.current.play().catch(e => {
+          console.log("Audio play error:", e);
+          setPlayPaperSound(true);
+        });
+      }
       setIsLetterOpen(true);
     }
+  };
+
+  const startRosePetalShower = () => {
+    setPlaying(true);
+    setShowRosePetals(true);
+    handleCelebrate();
+  };
+
+  const startRomanticCountdown = () => {
+    setPlaying(true);
+    setCountdownActive(true);
   };
 
   // Animated Birthday Heading Component
@@ -199,13 +289,6 @@ export default function BirthdaySurprise() {
           ref={howlerRef}
         />
 
-        <ReactHowler
-          src="/sounds/paper-open.mp3"
-          playing={playPaperSound}
-          onEnd={() => setPlayPaperSound(false)}
-          volume={0.3}
-        />
-
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -229,6 +312,11 @@ export default function BirthdaySurprise() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-rose-50 via-amber-50 to-white text-gray-900 relative">
       <div ref={heartsContainerRef} className="hearts-bg" />
+      
+      {/* Rose Petals */}
+      {showRosePetals && (
+        <div className="rose-petals-container fixed inset-0 pointer-events-none z-40 overflow-hidden" />
+      )}
       
       <AnimatePresence>
         {showTapOverlay && !userInteracted && (
@@ -259,6 +347,12 @@ export default function BirthdaySurprise() {
         volume={volume}
         ref={howlerRef}
       />
+      
+      <audio 
+        ref={paperSoundRef} 
+        src="/sounds/paper-open.mp3" 
+        preload="auto"
+      />
 
       {showConfetti && (
         <Confetti 
@@ -267,6 +361,24 @@ export default function BirthdaySurprise() {
           recycle={false}
           numberOfPieces={500}
         />
+      )}
+
+      {/* Romantic Countdown Message */}
+      {countdownMessage && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 flex items-center justify-center z-50 bg-black/30 backdrop-blur-sm"
+        >
+          <motion.div
+            className="bg-white p-8 rounded-xl shadow-2xl max-w-md mx-4 text-center"
+            initial={{ y: 50 }}
+            animate={{ y: 0 }}
+          >
+            <p className="text-xl font-medium text-rose-700">{countdownMessage}</p>
+          </motion.div>
+        </motion.div>
       )}
 
       {/* Hero Section */}
@@ -313,13 +425,6 @@ export default function BirthdaySurprise() {
                 className="w-24 accent-rose-500"
               />
             </div>
-            
-            <button 
-              onClick={() => { setPlaying(true); handleCelebrate(); }} 
-              className="px-6 py-3 rounded-full bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white font-semibold shadow-lg hover:shadow-xl transition-all"
-            >
-              Celebrate 🎉
-            </button>
           </motion.div>
         </div>
       </section>
@@ -415,6 +520,7 @@ export default function BirthdaySurprise() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
             className="text-3xl font-semibold text-center mb-8 text-rose-700"
+            onClick={handleOpenLetter}
           >
             A Letter From My Heart
           </motion.h2>
@@ -425,6 +531,7 @@ export default function BirthdaySurprise() {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
             className="relative"
+            onClick={handleOpenLetter}
           >
             <div className="bg-rose-100 rounded-lg p-1 shadow-lg">
               <motion.div 
@@ -503,7 +610,7 @@ export default function BirthdaySurprise() {
             transition={{ delay: 0.3 }}
             className="mb-8 text-gray-600 max-w-xl mx-auto"
           >
-            Tap the button below to make it rain confetti!
+            Choose how you want to celebrate!
           </motion.p>
 
           <motion.div 
@@ -514,17 +621,17 @@ export default function BirthdaySurprise() {
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
             <button 
-              onClick={() => { setPlaying(true); handleCelebrate(); }} 
+              onClick={startRosePetalShower} 
               className="px-8 py-4 rounded-full bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white font-semibold shadow-lg hover:shadow-xl transition-all text-lg"
             >
-              Shower Me With Love 💖
+              Shower Me With Rose Petals 🌹
             </button>
-            <a 
-              href="#reelVideo" 
-              className="px-6 py-3 rounded-full bg-white/90 border border-rose-100 hover:border-rose-200 cursor-pointer shadow-sm hover:shadow transition-all"
+            <button 
+              onClick={startRomanticCountdown} 
+              className="px-8 py-4 rounded-full bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white font-semibold shadow-lg hover:shadow-xl transition-all text-lg"
             >
-              Your Gift Awaits 🎁🎥
-            </a>
+              Count My Love For You 🔢
+            </button>
           </motion.div>
         </div>
       </section>
@@ -584,6 +691,43 @@ export default function BirthdaySurprise() {
           Made with ❤️ by Aevin — your (sometimes irritating) boyfriend
         </motion.p>
       </footer>
+
+      {/* CSS for rose petals */}
+      <style jsx global>{`
+        .rose-petal {
+          position: fixed;
+          top: -50px;
+          z-index: 999;
+          pointer-events: none;
+          animation-name: fall;
+          animation-timing-function: linear;
+          will-change: transform;
+        }
+
+        @keyframes fall {
+          to {
+            transform: translateY(calc(100vh + 50px)) rotate(720deg);
+          }
+        }
+
+        .hearts-bg .heart {
+          position: absolute;
+          pointer-events: none;
+          animation-name: float;
+          animation-timing-function: ease-in-out;
+          animation-iteration-count: infinite;
+          will-change: transform;
+        }
+
+        @keyframes float {
+          0% {
+            transform: translateY(0) rotate(0deg);
+          }
+          100% {
+            transform: translateY(-100vh) rotate(360deg);
+          }
+        }
+      `}</style>
     </div>
   );
 }
