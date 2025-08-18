@@ -7,7 +7,7 @@ import { Link } from 'react-scroll';
 
 
 const AUDIO_SRC = '/audio/paro.mp3';
-const LAUNCH_DATE = new Date('2025-08-20T00:00:00');
+const LAUNCH_DATE = new Date('2025-08-18T00:00:00');
 
 const photos = [
   { src: '/images/photo1.jpg', caption: 'Our first trip ✈️🌄', discription: 'The adventure that started it all 💕' },
