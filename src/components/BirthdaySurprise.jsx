@@ -5,7 +5,7 @@ import Confetti from 'react-confetti';
 import { Link } from 'react-scroll';
 
 const AUDIO_SRC = '/audio/paro.mp3';
-const LAUNCH_DATE = new Date('2025-08-20T00:00:00');
+const LAUNCH_DATE = new Date('2025-08-12T00:00:00');
 
 const photos = [
   { src: '/images/photo1.jpg', caption: 'Our first trip ✈️🌄', description: 'The adventure that started it all 💕' },
@@ -47,6 +47,9 @@ export default function BirthdaySurprise() {
   const [showKiss, setShowKiss] = useState(false);
   const [kissCount, setKissCount] = useState(0);
   const [hasShownInitialConfetti, setHasShownInitialConfetti] = useState(false);
+  const [showStory, setShowStory] = useState(false); 
+  // Add this new state for the couple dance
+  const [isDancing, setIsDancing] = useState(false);
   
 
   // Enhanced floating hearts effect
@@ -213,6 +216,8 @@ export default function BirthdaySurprise() {
     return () => clearInterval(interval);
   }, [countdownActive]);
 
+
+
   function getTimeLeft() {
     const now = new Date();
     const diff = LAUNCH_DATE - now;
@@ -265,6 +270,63 @@ export default function BirthdaySurprise() {
   const startRomanticCountdown = () => {
     setPlaying(true);
     setCountdownActive(true);
+  };
+   const CoupleDance = () => {
+    return (
+      <div className="text-center p-6 bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl shadow-lg">
+        <h3 className="text-xl font-bold mb-4 text-purple-700">Our First Dance</h3>
+        <div 
+          className="relative h-40 mx-auto max-w-xs mb-4 cursor-pointer"
+          onClick={() => setIsDancing(!isDancing)}
+        >
+          <motion.div
+            animate={isDancing ? {
+              x: [-10, 10, -10],
+              y: [0, -5, 0],
+              rotate: [-5, 5, -5]
+            } : {}}
+            transition={{ 
+              duration: 1,
+              repeat: isDancing ? Infinity : 0,
+              ease: "easeInOut" 
+            }}
+            className="text-5xl absolute left-0"
+          >
+            👩
+          </motion.div>
+          <motion.div
+            animate={isDancing ? {
+              x: [10, -10, 10],
+              y: [0, -5, 0],
+              rotate: [5, -5, 5]
+            } : {}}
+            transition={{ 
+              duration: 1,
+              repeat: isDancing ? Infinity : 0,
+              ease: "easeInOut" 
+            }}
+            className="text-5xl absolute right-0"
+          >
+            👨
+          </motion.div>
+          {isDancing && (
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              className="absolute bottom-0 left-1/2 transform -translate-x-1/2 text-2xl"
+            >
+              💃
+            </motion.div>
+          )}
+        </div>
+        <button
+          onClick={() => setIsDancing(!isDancing)}
+          className="mt-4 px-6 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full shadow-lg hover:shadow-xl transition-all"
+        >
+          {isDancing ? "Pause Dance 💃" : "Start Dancing 🕺"}
+        </button>
+      </div>
+    );
   };
 
   // Animated Birthday Heading Component
@@ -385,7 +447,50 @@ export default function BirthdaySurprise() {
           onConfettiComplete={() => setShowConfetti(false)}
         />
       )}
-      
+       {/* Love Story Modal */}
+      {showStory && (
+        <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center">
+          <div className="bg-white p-8 rounded-xl max-w-md relative mx-4">
+            <button 
+              onClick={() => setShowStory(false)}
+              className="absolute top-4 right-4 text-2xl hover:text-rose-500 transition-colors"
+            >
+              &times;
+            </button>
+            <h3 className="text-2xl font-bold mb-4 text-rose-700">Our Love Story</h3>
+            <div className="space-y-4 max-h-96 overflow-y-auto">
+              {[
+               "Our first match on Bumble - that magical swipe right that started it all 💫",
+          "Your beautiful black and white dress photo in front of the church that caught my eye ⛪",
+          "The stunning blue dress picture with white and yellow background that made me swipe right instantly 👗",
+          "Our first 4-hour marathon conversation that felt like minutes ⏰",
+          "Daily mandatory video calls where we shared our deepest thoughts and dreams 📞",
+          "The way you always reply to my reels with so much love and attention 🎬",
+          "Our emotional first meeting at Acadia Super Market after long-distance waiting 🛒",
+          "That nervous yet exciting meeting at the railway station 🚉",
+          "Our first official date at Cafe Coffee Day in Bangalore - the start of something beautiful ☕",
+          "Our magical first trip to Mysore - creating memories that will last forever 🏰",
+          "The way you scold me with so much love and care that makes me feel special 🥰",
+          "How you always prioritize me and make me feel like the most important person in your life 💖",
+          "Every moment with you feels like home - safe, warm, and full of love 🏡",
+          "The way your smile brightens even my darkest days ☀️",
+          "Our journey from strangers to soulmates - a story I'll cherish forever 📖"
+              ].map((text, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.3 }}
+                  className="flex items-start p-3 bg-rose-50 rounded-lg"
+                >
+                  <span className="text-2xl mr-3">💞</span>
+                  <p className="text-gray-700">{text}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
       <AnimatePresence>
         {showTapOverlay && !userInteracted && (
           <motion.div
@@ -493,9 +598,17 @@ export default function BirthdaySurprise() {
                 className="w-24 accent-rose-500"
               />
             </div>
+     {/* Add Love Story Button */}
+            <button 
+              onClick={() => setShowStory(true)}
+              className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full shadow-lg hover:shadow-xl transition-all"
+            >
+              Read Our Love Story
+            </button>
           </motion.div>
         </div>
       </section>
+
 
       {/* Photo Timeline */}
       <section className="py-20 px-4 max-w-6xl mx-auto">
@@ -717,6 +830,11 @@ export default function BirthdaySurprise() {
                   {kissCount > 0 ? `x${kissCount}` : ''}
                 </span>
               </button>
+               <section className="py-16 px-4 bg-gradient-to-b from-white to-purple-50">
+        <div className="max-w-md mx-auto">
+          <CoupleDance />
+        </div>
+      </section>
               
               <AnimatePresence>
                 {showKiss && (
