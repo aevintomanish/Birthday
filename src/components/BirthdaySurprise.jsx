@@ -5,7 +5,7 @@ import Confetti from 'react-confetti';
 import { Link } from 'react-scroll';
 
 const AUDIO_SRC = '/audio/paro.mp3';
-const LAUNCH_DATE = new Date('2025-08-18T00:00:00');
+const LAUNCH_DATE = new Date('2025-08-20T00:00:00');
 
 const photos = [
   { src: '/images/photo1.jpg', caption: 'Our first trip ✈️🌄', description: 'The adventure that started it all 💕' },
@@ -47,6 +47,7 @@ export default function BirthdaySurprise() {
   const [showKiss, setShowKiss] = useState(false);
   const [kissCount, setKissCount] = useState(0);
   const [hasShownInitialConfetti, setHasShownInitialConfetti] = useState(false);
+  
 
   // Enhanced floating hearts effect
   useEffect(() => {
