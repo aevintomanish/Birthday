@@ -27,6 +27,19 @@ body {
   overflow: hidden;
   pointer-events: none;
 }
+.envelope {
+  perspective: 1000px;
+}
+
+.envelope-flap {
+  transform-style: preserve-3d;
+  transform-origin: top center;
+}
+
+.letter-paper {
+  transform-style: preserve-3d;
+  transition: transform 0.5s ease;
+}
 
 .heart {
   position: absolute;
@@ -127,3 +140,43 @@ body {
   transform: scaleX(1);
   transform-origin: left;
 }
+ .rose-petal {
+          position: fixed;
+          top: -50px;
+          z-index: 999;
+          pointer-events: none;
+          animation-name: fall;
+          animation-timing-function: linear;
+          will-change: transform;
+        }
+           @keyframes float-up {
+          0% { transform: translateY(0) scale(1); opacity: 1; }
+          100% { transform: translateY(-100px) scale(1.5); opacity: 0; }
+        }
+        .kiss-animation {
+          animation: float-up 1.5s ease-out forwards;
+        }
+
+        @keyframes fall {
+          to {
+            transform: translateY(calc(100vh + 50px)) rotate(720deg);
+          }
+        }
+
+        .hearts-bg .heart {
+          position: absolute;
+          pointer-events: none;
+          animation-name: float;
+          animation-timing-function: ease-in-out;
+          animation-iteration-count: infinite;
+          will-change: transform;
+        }
+
+        @keyframes float {
+          0% {
+            transform: translateY(0) rotate(0deg);
+          }
+          100% {
+            transform: translateY(-100vh) rotate(360deg);
+          }
+        }

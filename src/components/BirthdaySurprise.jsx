@@ -5,7 +5,7 @@ import Confetti from 'react-confetti';
 import { Link } from 'react-scroll';
 
 const AUDIO_SRC = '/audio/paro.mp3';
-const LAUNCH_DATE = new Date('2025-08-20T00:00:00');
+const LAUNCH_DATE = new Date('2025-08-18T00:00:00');
 
 const photos = [
   { src: '/images/photo1.jpg', caption: 'Our first trip ✈️🌄', description: 'The adventure that started it all 💕' },
@@ -18,7 +18,7 @@ const photos = [
   { src: '/images/photo8.jpeg', caption: 'Movie date 🍿🎬', description: 'You came all dressed in a saree just for me 💕 We watched Officer on Duty together and captured these lovely photos — such a special memory!' },
   { src: '/images/photo9.jpeg', caption: 'Paragon dayyy 🎉🎈', description: 'Spent a lovely day together — first we bought the helmet 🛵💖, then enjoyed some quality time at Cubbon Park 🌳⏰. A memory I\'ll always treasure!' },
   { src: '/images/photo10.jpeg', caption: 'Last meet before graduation 🎓💔', description: 'When you planned the date, I was so happy — the locations, everything was perfect. The only sad part was I didn\'t realize it would be our last meeting before your graduation 🎓💔' },
-  { src: '/images/photo11.jpeg', caption: 'My birthday bash 🥳🎂', description: 'I thought you\'d be busy with college and everything, but somehow you found an entire day just for me — your effort and love made it so special 💖✨' },
+  { src: '/images/photo11.jpeg', caption: 'My birthday bash 🥳🎂', description: 'I thought you\'d be busy with college and everything, but somehow you found an entire night just for me — your effort and love made it so special 💖✨' },
   { src: '/images/photo12.jpeg', caption: 'Simple date, pure joy 🌸☕', description: 'Everyday magic with you ✨💑💛' },
   { src: '/images/photo13.jpeg', caption: '1 year of love 💕🥂', description: 'Our anniversary that we didn\'t even think would happen — a random swipe, a missed flight, and despite many plans to break up, it ended up being something so beautiful. Thank you, Mann, for everything ❤️✨ I\'m still keeping that letter from you in my cupboard in a safe place; I\'ll hold it whenever I miss you 💌Our first anniversary, unforgettable' },
 ];
@@ -26,7 +26,10 @@ const photos = [
 export default function BirthdaySurprise() {
   const [showConfetti, setShowConfetti] = useState(false);
   const [showRosePetals, setShowRosePetals] = useState(false);
-  const [dimensions, setDimensions] = useState({ width: 1200, height: 800 });
+  const [dimensions, setDimensions] = useState({ 
+    width: typeof window !== 'undefined' ? window.innerWidth : 1200, 
+    height: typeof window !== 'undefined' ? window.innerHeight : 800 
+  });
   const [timeLeft, setTimeLeft] = useState(getTimeLeft());
   const [unlocked, setUnlocked] = useState(false);
   const howlerRef = useRef(null);
@@ -41,6 +44,9 @@ export default function BirthdaySurprise() {
   const paperSoundRef = useRef(null);
   const [countdownActive, setCountdownActive] = useState(false);
   const [countdownMessage, setCountdownMessage] = useState('');
+  const [showKiss, setShowKiss] = useState(false);
+  const [kissCount, setKissCount] = useState(0);
+  const [hasShownInitialConfetti, setHasShownInitialConfetti] = useState(false);
 
   // Enhanced floating hearts effect
   useEffect(() => {
@@ -126,6 +132,35 @@ export default function BirthdaySurprise() {
     }, 1000);
     return () => clearInterval(timer);
   }, [unlocked, userInteracted]);
+  
+   // Automatically show confetti on first view
+  useEffect(() => {
+    const handleResize = () => {
+      setDimensions({
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+    };
+
+    window.addEventListener('resize', handleResize);
+     // Show confetti on first load
+    if (!hasShownInitialConfetti) {
+      setShowConfetti(true);
+      setHasShownInitialConfetti(true);
+      const timer = setTimeout(() => {
+        setShowConfetti(false);
+      }, 8000);
+      
+      return () => {
+        clearTimeout(timer);
+        window.removeEventListener('resize', handleResize);
+      };
+    }
+    
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [hasShownInitialConfetti]);
 
   // Window resize handler
   useEffect(() => {
@@ -217,6 +252,14 @@ export default function BirthdaySurprise() {
     setShowRosePetals(true);
     handleCelebrate();
   };
+  const handleKiss = (isKissing) => {
+    setShowKiss(isKissing);
+    if (isKissing) {
+      setKissCount(prev => prev + 1);
+      // Play a kiss sound if you want
+      // kissSoundRef.current.play();
+    }
+  };
 
   const startRomanticCountdown = () => {
     setPlaying(true);
@@ -249,7 +292,7 @@ export default function BirthdaySurprise() {
           <motion.span 
             className="block mt-2 text-3xl sm:text-5xl font-medium text-gray-800"
           >
-            Annlin Autokaran Aka Mariyama
+            Annlin Attokaran Aka Mariyama 🛺
           </motion.span>
         </h1>
       </motion.div>
@@ -316,6 +359,30 @@ export default function BirthdaySurprise() {
       {/* Rose Petals */}
       {showRosePetals && (
         <div className="rose-petals-container fixed inset-0 pointer-events-none z-40 overflow-hidden" />
+      )}
+      {showConfetti && (
+        <Confetti 
+          width={dimensions.width} 
+          height={dimensions.height}
+          recycle={false}
+          numberOfPieces={500}
+          gravity={0.2}
+          onConfettiComplete={() => setShowConfetti(false)}
+        />
+      )}
+       {/* Floating hearts container */}
+      <div ref={heartsContainerRef} className="hearts-container fixed inset-0 pointer-events-none z-0" />
+      
+      {/* Automatic confetti */}
+      {showConfetti && (
+        <Confetti 
+          width={dimensions.width} 
+          height={dimensions.height}
+          recycle={false}
+          numberOfPieces={500}
+          gravity={0.2}
+          onConfettiComplete={() => setShowConfetti(false)}
+        />
       )}
       
       <AnimatePresence>
@@ -591,7 +658,7 @@ export default function BirthdaySurprise() {
       </section>
 
       {/* Final Section */}
-      <section className="py-32 px-4 bg-gradient-to-b from-white to-rose-50 relative overflow-hidden">
+         <section className="py-32 px-4 bg-gradient-to-b from-white to-rose-50 relative overflow-hidden">
         <div className="max-w-3xl mx-auto text-center relative z-10">
           <motion.h2 
             initial={{ scale: 0.95, opacity: 0 }}
@@ -618,20 +685,60 @@ export default function BirthdaySurprise() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.6 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
+            className="flex flex-col items-center justify-center gap-4"
           >
-            <button 
-              onClick={startRosePetalShower} 
-              className="px-8 py-4 rounded-full bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white font-semibold shadow-lg hover:shadow-xl transition-all text-lg"
-            >
-              Shower Me With Rose Petals 🌹
-            </button>
-            <button 
-              onClick={startRomanticCountdown} 
-              className="px-8 py-4 rounded-full bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white font-semibold shadow-lg hover:shadow-xl transition-all text-lg"
-            >
-              Count My Love For You 🔢
-            </button>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <button 
+                onClick={startRosePetalShower} 
+                className="px-8 py-4 rounded-full bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white font-semibold shadow-lg hover:shadow-xl transition-all text-lg"
+              >
+                Shower Me With Rose Petals 🌹
+              </button>
+              <button 
+                onClick={startRomanticCountdown} 
+                className="px-8 py-4 rounded-full bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white font-semibold shadow-lg hover:shadow-xl transition-all text-lg"
+              >
+                Count My Love For You 🔢
+              </button>
+            </div>
+
+            {/* Add the Virtual Kiss Button Here */}
+            <div className="relative mt-8">
+              <button 
+                onMouseDown={() => handleKiss(true)}
+                onMouseUp={() => handleKiss(false)}
+                onTouchStart={() => handleKiss(true)}
+                onTouchEnd={() => handleKiss(false)}
+                className="px-8 py-4 rounded-full bg-gradient-to-r from-red-500 to-pink-500 text-white font-semibold shadow-lg hover:shadow-xl transition-all text-lg relative overflow-hidden"
+              >
+                👄 Press to Kiss Me
+                <span className="absolute bottom-1 right-2 text-xs opacity-70">
+                  {kissCount > 0 ? `x${kissCount}` : ''}
+                </span>
+              </button>
+              
+              <AnimatePresence>
+                {showKiss && (
+                  <motion.div
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ scale: [1, 1.2, 1], opacity: [1, 0.8, 0] }}
+                    exit={{ scale: 0, opacity: 0 }}
+                    transition={{ duration: 0.8 }}
+                    className="absolute -top-20 left-0 right-0 flex flex-col items-center pointer-events-none"
+                  >
+                    <span className="text-5xl">💋</span>
+                    <motion.p 
+                      initial={{ y: 20, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ delay: 0.3 }}
+                      className="text-sm font-medium text-rose-700"
+                    >
+                      Mwah! I love you!
+                    </motion.p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </motion.div>
         </div>
       </section>
@@ -694,39 +801,7 @@ export default function BirthdaySurprise() {
 
       {/* CSS for rose petals */}
       <style jsx global>{`
-        .rose-petal {
-          position: fixed;
-          top: -50px;
-          z-index: 999;
-          pointer-events: none;
-          animation-name: fall;
-          animation-timing-function: linear;
-          will-change: transform;
-        }
-
-        @keyframes fall {
-          to {
-            transform: translateY(calc(100vh + 50px)) rotate(720deg);
-          }
-        }
-
-        .hearts-bg .heart {
-          position: absolute;
-          pointer-events: none;
-          animation-name: float;
-          animation-timing-function: ease-in-out;
-          animation-iteration-count: infinite;
-          will-change: transform;
-        }
-
-        @keyframes float {
-          0% {
-            transform: translateY(0) rotate(0deg);
-          }
-          100% {
-            transform: translateY(-100vh) rotate(360deg);
-          }
-        }
+       
       `}</style>
     </div>
   );
